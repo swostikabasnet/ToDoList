@@ -20,7 +20,7 @@ export default function DefaultLayout() {
   };
   
   useEffect(() => {
-    axiosClient.post('/user')
+    axiosClient.get('/user')
       .then(({data}) => {
         setUser(data)
       })

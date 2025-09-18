@@ -8,6 +8,7 @@ import NotFound from "./views/NotFound";
 import Home from "./views/Home";
 import Dashboard from "./views/Dashboard";
 import { RouterProvider } from "react-router-dom";
+import UserForm from "./views/UserForm.jsx";
 
 
 const router = createBrowserRouter([
@@ -17,7 +18,9 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "dashboard", element: <Dashboard /> }, 
-      { path: "users", element: <Users /> },    
+      { path: "users", element: <Users /> }, 
+      { path: "users/new", element: <UserForm key="userCreate"/> },  
+      { path: "users/:id", element: <UserForm key="userUpdate"/> },
     ],
   },
   {

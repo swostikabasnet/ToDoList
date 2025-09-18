@@ -6,11 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\SignupRequest;
+use App\Http\Requests\SignUpRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function signup(SignupRequest $request)
+    public function signup(SignUpRequest $request)
     {
         // Validate the request data
         $data = $request->validated();
@@ -22,7 +23,7 @@ class AuthController extends Controller
         ]);
         
         // Generate a new API token for the user
-        $token=$user -> createToken('main')-> plainTextToken;
+        $token=$user->createToken('main')->plainTextToken;
         // Return the token in the response
         return response(compact('user','token'));
     }
@@ -32,7 +33,7 @@ class AuthController extends Controller
         // Validate the request data
         $credentials=$request->validated();
         if(!Auth::attempt($credentials)){
-            return response(['message' => 'Provided email address or password is incorrect', 422]);
+            return response(['message' => 'Provided email address or password is incorrect'], 422);
         }
         /** @var User $user */
         $user=Auth::user();

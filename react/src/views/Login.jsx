@@ -1,6 +1,7 @@
 import React, { use, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import axios from "../axios-client.js";
+import axiosClient from '../axios-client';
+
 
 import { useState } from 'react';
 import { useStateContext } from '../Contexts/ContextProvider.jsx';
@@ -9,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
   const emailRef = useRef()
   const passwordRef = useRef()
+  const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
   const { setUser, setToken } = useStateContext();
   const onSubmit = (ev) => {
@@ -27,6 +29,7 @@ export default function Login() {
         navigate('/users'); // redirect to users page
       })
       .catch(err => {
+        console.log(err);
         const response = err.response; //response from the server in case of error
         if (response && response.status === 422) {  //422 is validation error
           if (response.data.errors) {
