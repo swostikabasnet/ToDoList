@@ -1,0 +1,55 @@
+import React, { use, useEffect } from 'react';
+import { Link, Navigate,Outlet} from 'react-router-dom';
+import { useStateContext } from '../Contexts/ContextProvider';
+import axiosClient from '../axios-client';
+
+export default function DefaultLayout() {
+  const { user, token, setUser, setToken } = useStateContext();
+  if (!token) {
+    return <Navigate to="/login" />; // if no token, redirect to login
+  }
+
+  const onLogout = (ev) => {
+    ev.preventDefault();
+    axiosClient.post('/logout')
+    .then(()=>{
+      setUser({})
+      setToken(null)
+    })
+   
+  };
+  
+  useEffect(() => {
+    axiosClient.post('/user')
+      .then(({data}) => {
+        setUser(data)
+      })
+  })
+
+  return (
+    <div id="defaultLayout">
+      <aside>
+        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/users">Users</Link>
+      </aside>
+      <div className='content'>
+        <header>
+            <div>Header</div>
+            <div>{user.name}
+            <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
+            </div>
+        </header>
+            <main>
+                <Outlet /> {/* This is where the child routes will be rendered */}
+        </main>
+        </div>
+      {/* <div>
+        {user && user.name ? `Welcome, ${user.name}` : ''}
+        <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
+      </div> */}
+    </div>
+  )
+};
+
+
+
