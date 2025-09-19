@@ -20,11 +20,13 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard">
-      <h1>Welcome to your Dashboard!</h1>
+      
       {userInfo ? (
         <div>
           <p>Name: {userInfo.name}</p>
           <p>Email: {userInfo.email}</p>
+          <p>Total Projects: {}</p>
+          <p>Projects Assigned To You: {}</p>
         </div>
       ) : (
         <p>Loading user info...</p>

@@ -1,6 +1,8 @@
 import React, { use, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useStateContext } from '../Contexts/ContextProvider';
 
 export default function Users() {
   const[users,setUsers]=React.useState([]);
@@ -12,7 +14,16 @@ export default function Users() {
 
   },[]);
 
+  const onDelete=(u)=>{
+    if(!window.confirm("Are you sure you want to delete this user?")){
+      return
+    }
+    axiosClient.delete(`/users/${u.id}`)
+    .then(()=>{
+      getUsers();
+    })
 
+  }
   const getUsers= ()=>{
     setLoading(true);
       axiosClient.get('/users')
@@ -44,7 +55,15 @@ export default function Users() {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          {loading && <tbody>
+            <tr>
+              <td colSpan="5"className='text-center'>
+                Loading...
+              </td>
+            </tr>
+          </tbody>
+          }
+          {!loading && <tbody>
            {users.map(u=>(
             <tr>
               <td>{u.id}</td>
@@ -53,11 +72,13 @@ export default function Users() {
               <td>{u.created_at}</td>
               <td>
                 <Link className='btn-edit' to={'/users/'+u.id}>Edit</Link>
-                <button className='btn-delete'>Delete</button>
+                &nbsp;
+                <button onClick= {ev=> onDelete(u)}className='btn-delete'>Delete</button>
               </td>
               </tr>
             ))}
           </tbody>
+          }
         </table>
       </div>
     </div>
