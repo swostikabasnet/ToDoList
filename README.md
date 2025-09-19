@@ -1,4 +1,4 @@
-# TO-DO LIST Dashboard
+## TO-DO LIST Dashboard
 
 A simple **Task Management Dashboard** built with **React** for the frontend and **Laravel** for the backend. The dashboard displays total users, projects, tasks, and tasks per project, along with authentication features.
 
@@ -28,15 +28,18 @@ A simple **Task Management Dashboard** built with **React** for the frontend and
 ## Installation & Setup
 
 
-# --- Backend Setup (Laravel) ---
-composer install
-php artisan key:generate
-php artisan migrate
-php artisan serve
+### --- Backend Setup (Laravel) ---
+  - composer install
+  - php artisan key:generate 
+  - php artisan migrate 
+  - php artisan migrate
 
 
-# --- Frontend Setup (React) ---
-npm install
-npm run dev
+### --- Frontend Setup (React) ---
+  - npm install
+  - npm run dev
+
+
+
 
 
