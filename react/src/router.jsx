@@ -9,9 +9,9 @@ import Home from "./views/Home";
 import Dashboard from "./views/Dashboard";
 import Projects from "./views/Projects.jsx";
 import Tasks from "./views/Tasks.jsx";
-import { RouterProvider } from "react-router-dom";
 import UserForm from "./views/UserForm.jsx";
-
+import ProjectForm from "./views/ProjectForm.jsx";
+import TaskForm from "./views/TaskForm.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,11 +21,14 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "dashboard", element: <Dashboard /> }, 
       { path: "users", element: <Users /> }, 
-      { path: "projects", element: <Projects /> }, 
-      { path: "tasks", element: <Tasks /> }, 
       { path: "users/new", element: <UserForm key="userCreate"/> },  
       { path: "users/:id", element: <UserForm key="userUpdate"/> },
-      
+      { path: "projects", element: <Projects /> }, 
+      { path: "projects/new", element: <ProjectForm key="projectCreate"/> },
+      { path: "projects/:id", element: <ProjectForm key="projectUpdate"/> },
+      { path: "tasks", element: <Tasks /> }, 
+      { path: "tasks/new", element: <TaskForm key="taskCreate"/> },
+      { path: "tasks/:id", element: <TaskForm key="taskUpdate"/> },
     ],
   },
   {
@@ -34,7 +37,6 @@ const router = createBrowserRouter([
     children: [
       { path: "login", element: <Login /> },
       { path: "signup", element: <SignUp /> },
-      
     ],
   },
   {

@@ -1,30 +1,29 @@
-import React, { use, useEffect } from 'react';
-import { Link, Navigate,Outlet} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
 import axiosClient from '../axios-client';
 
 export default function DefaultLayout() {
-  const { user, token,notification, setUser, setToken } = useStateContext();
+  const { user, token, notification, setUser, setToken } = useStateContext();
+  const location = useLocation();
+
   if (!token) {
-    return <Navigate to="/login" />; // if no token, redirect to login
+    return <Navigate to="/login" />;
   }
 
   const onLogout = (ev) => {
     ev.preventDefault();
-    axiosClient.post('/logout')
-    .then(()=>{
-      setUser({})
-      setToken(null)
-    })
-   
+    axiosClient.post('/logout').then(() => {
+      setUser({});
+      setToken(null);
+    });
   };
-  
+
   useEffect(() => {
-    axiosClient.get('/user')
-      .then(({data}) => {
-        setUser(data)
-      })
-  })
+    axiosClient.get('/user').then(({ data }) => {
+      setUser(data);
+    });
+  }, [setUser]);
 
   return (
     <div id="defaultLayout">
@@ -34,32 +33,32 @@ export default function DefaultLayout() {
         <Link to="/projects">Projects</Link>
         <Link to="/tasks">Tasks</Link>
       </aside>
-      <div className='content'>
-        {notification &&
-        <div className='notification'>
-          {notification}
-        </div>
-        }
-        
-        <header className="flex justify-between items-center px-6 py-4 bg-white shadow">
-            <div className="text-center mb-6">
-              <h1 className="text-4xl font-bold text-gray-800">TODOLIST</h1>
-            </div>
-            <div>
-              <a href="#" onClick={onLogout} className="btn-logout">Logout</a>  
-            </div>   
+
+      <div className="content">
+        {notification && <div className="notification">{notification}</div>}
+
+        <header className="flex items-center px-6 py-4 bg-white shadow relative">
+          {/* Show TODOLIST only on /dashboard */}
+          {location.pathname === "/dashboard" && (
+            <h1 className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-bold">
+              TO-DO-LIST
+            </h1>
+          )}
+
+          {/* Logout always on the right */}
+          <a
+            href="#"
+            onClick={onLogout}
+            className="btn-logout ml-auto text-red-500 font-semibold"
+          >
+            Logout
+          </a>
         </header>
-            <main>
-                <Outlet /> {/* This is where the child routes will be rendered */}
+
+        <main>
+          <Outlet />
         </main>
-        </div>
-      {/* <div>
-        {user && user.name ? `Welcome, ${user.name}` : ''}
-        <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
-      </div> */}
+      </div>
     </div>
-  )
-};
-
-
-
+  );
+}

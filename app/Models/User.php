@@ -47,4 +47,29 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    /**
+     * Projects owned by this user
+     */
+    public function ownedProjects()
+    {
+        return $this->hasMany(Project::class, 'created_by');
+    }
+
+    /**
+     * Projects assigned to this user
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class)
+                ->withPivot('role')
+                ->withTimestamps();
+    }
+
+    /**
+     * Tasks assigned to this user
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'assigned_user_id');
+    }
 }

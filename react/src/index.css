@@ -74,9 +74,10 @@ input:focus {
 .btn-logout {
     text-decoration: none;
     padding: 0.75rem 1.5rem;
-    color: #212121;
+    color: white;
     transition: all 0.3s;
     border-radius: 6px;
+    background-color: rgb(150, 7, 7);
 }
 .btn-logout:hover {
     background-color: rgba(0, 0, 0, 0.1);
@@ -211,9 +212,22 @@ table > tbody > tr > td {
     background-color: white;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    position: relative;
 }
+
+#defaultLayout header h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Force logout link to the far right */
+#defaultLayout header .btn-logout {
+    margin-left: auto;
+}
+
+
 
 #defaultLayout main {
     padding: 2rem;
@@ -240,4 +254,163 @@ table > tbody > tr > td {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+    /* Status and Priority Badges */
+.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status.active { background-color: #28a745; color: white; }
+.status.completed { background-color: #6c757d; color: white; }
+.status.on_hold { background-color: #ffc107; color: black; }
+.status.pending { background-color: #17a2b8; color: white; }
+.status.in-progress { background-color: #007bff; color: white; }
+
+.priority {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.priority.low { background-color: #28a745; color: white; }
+.priority.medium { background-color: #ffc107; color: black; }
+.priority.high { background-color: #dc3545; color: white; }
+
+/* Form styles */
+.user-assignment {
+  margin: 20px 0;
+}
+
+.checkbox-label {
+  display: block;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* Table improvements */
+table select {
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  table {
+    font-size: 12px;
+  }
+  
+  .btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .projectform{
+    
+  }
+  .project-form-container {
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.project-form-container h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #6b46c1;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #2d3748;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #6b46c1;
+}
+
+.status-select {
+  background-color: #d9f99d;
+  color: #166534;
+  font-weight: 500;
+}
+
+.user-assignment {
+  margin-top: 30px;
+}
+
+.user-assignment h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: #2d3748;
+}
+
+.checkbox-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #4a5568;
+}
+
+.save-button {
+  display: block;
+  width: 100%;
+  background-color: #6b46c1;
+  color: white;
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #553c9a;
+}
+
+.alert {
+  background-color: #fed7d7;
+  color: #c53030;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
 }
