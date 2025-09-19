@@ -2,12 +2,15 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosClient from '../axios-client';
+import { useStateContext } from '../Contexts/ContextProvider';
+
 
 export default function UserForm() {
   const{id}= useParams();
   const navigate= useNavigate();
   const[loading,setLoading]= useState(false);
   const[errors,setErrors]= useState(null);
+  const{setNotification}= useStateContext();
   const [user,setUser]= useState({
     id:null,
     name:'',
@@ -16,8 +19,9 @@ export default function UserForm() {
     password_confirmation:''
   });
 
-  if(id){
     useEffect(()=>{
+  if(id){
+
       setLoading(true);
       axiosClient.get(`/users/${id}`)
       .then(({data})=>{
@@ -27,13 +31,15 @@ export default function UserForm() {
       .catch(()=>{
         setLoading(false);
       });
-    },[]);
   }
+
+    },[id]);
   const onSubmit=(ev)=>{
     ev.preventDefault();
     if(user.id){
       axiosClient.put(`/users/${user.id}`,user)
       .then(()=>{
+        setNotification('User was successfully updated')
         navigate('/users')
       })
       .catch(err=>{
@@ -45,6 +51,7 @@ export default function UserForm() {
     }else{
        axiosClient.post(`/users`,user)
       .then(()=>{
+        setNotification('User was successfully created')
         navigate('/users')
       })
       .catch(err=>{

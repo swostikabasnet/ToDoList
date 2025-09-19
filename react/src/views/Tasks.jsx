@@ -1,54 +1,76 @@
-import React, { useEffect, useState } from 'react';
-import { useStateContext } from '../Contexts/ContextProvider';
+import React, { use, useEffect } from 'react';
 import axiosClient from '../axios-client';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useStateContext } from '../Contexts/ContextProvider';
 
-export default function Tasks() {
-  const { token } = useStateContext();
-  const [tasks, setTasks] = useState([]);
+export default function Users() {
+  const[users,setUsers]=React.useState([]);
+  const[loading,setLoading]=React.useState(false);
+  const{setNotification}= useStateContext();
 
-  useEffect(() => {
-    if (token) {
-      axiosClient.get('/tasks')
-        .then(({ data }) => {
-          setTasks(data);
-        })
-        .catch(() => {
-          setTasks([]);
-        });
+  useEffect(()=>{
+    getUsers();
+  },[]);
+
+  const onDelete=(u)=>{
+    if(!window.confirm("Are you sure you want to delete this user?")){
+      return
     }
-  }, [token]);
 
+  }
+  const getUsers= ()=>{
+    setLoading(true);
+      axiosClient.get('/users')
+      .then(({data})=>{
+        setLoading(false);
+        setUsers(data.data)
+
+      })
+  
+  .catch(()=>{
+    setLoading(false);
+  });
+  };
+  
   return (
-    <div className="tasks">
-      <h1>Tasks</h1>
-      {tasks.length > 0 ? (
+    <div>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+        <h1>Tasks</h1>
+        <Link to="/users/new" className='btn-add'>Add new task</Link>
+      </div>
+      <div className='card animated fadeInDown'>
         <table>
           <thead>
             <tr>
               <th>Task Name</th>
-              <th>Assigned users</th>
+              <th>Assigned user</th>
               <th>Status</th>
-              <th>Due Date</th>
-              
             </tr>
           </thead>
-          <tbody>
-            {tasks.map(task => (
-              <tr key={task.id}>
-                <td>{task.name}</td>
-                <td>{task.project?.name}</td>
-                <td>{task.status}</td>
-                <td>{task.due_date}</td>
-                <td>
-                  {/* Add Edit/Delete buttons here */}
-                </td>
+          {loading && <tbody>
+            <tr>
+              <td colSpan="5"className='text-center'>
+                Loading...
+              </td>
+            </tr>
+          </tbody>
+          }
+          {/* {!loading && <tbody>
+           {users.map(u=>(
+            <tr>
+              <td>
+                <Link className='btn-edit' to={'/users/'+u.id}>Edit</Link>
+                &nbsp;
+                <button onClick= {ev=> onDelete(u)}className='btn-delete'>Delete</button>
+              </td>
               </tr>
             ))}
           </tbody>
+          } */}
         </table>
-      ) : (
-        <p>No tasks found.</p>
-      )}
+      </div>
     </div>
-  );
+    
+  )
 }

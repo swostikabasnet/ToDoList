@@ -7,11 +7,10 @@ import { useStateContext } from '../Contexts/ContextProvider';
 export default function Users() {
   const[users,setUsers]=React.useState([]);
   const[loading,setLoading]=React.useState(false);
+  const{setNotification}= useStateContext();
 
   useEffect(()=>{
     getUsers();
-  
-
   },[]);
 
   const onDelete=(u)=>{
@@ -20,6 +19,7 @@ export default function Users() {
     }
     axiosClient.delete(`/users/${u.id}`)
     .then(()=>{
+      setNotification('User was successfully deleted')  
       getUsers();
     })
 
